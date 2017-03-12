@@ -1,0 +1,17 @@
+{
+  "name": "simple-slider",
+  "version": "1.0.0",
+  "description": "Yet another slider Javascript module. Built because I don't like how other  sliders work.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ivan Mattie",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^2.1.0"
+  }
+}
