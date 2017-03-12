@@ -56,8 +56,129 @@
 
     var Slider = function(data) {
         this.element = data.element || document.querySelector(data.selector);
+        this.delay = data.delay || 5000;
+        this.ready = false;
+        this.counting = false;
+        this.sliding = false;
+        this.index = 0;
 
-        console.log(this.element);
+        this.setup();
+    };
+
+    Slider.prototype.setup = function() {
+        var x, child, self = this, children = this.element.children;
+
+        this.element.className += " _simple_slider";
+
+        for(x = 0; x < children.length; x++) {
+            child = children[x];
+
+            if(x == 0) {
+                child.className += " _slide _active";
+            } else {
+                child.className += " _slide";
+            }
+
+            child.addEventListener("transitionend", function(e) {
+                self.childTransitionEnded(e);
+            });
+        }
+
+        this.ready = true;
+        this.startCounting();
+    };
+
+    Slider.prototype.startCounting = function() {
+        if(this.counting) {
+            console.warn("Slider is already counting!");
+            return;
+        } else {
+            var self = this;
+            this.counting = true;
+
+            setInterval(function() {
+                self.tick();
+            }, this.delay);
+        }
+    };
+
+    Slider.prototype.tick = function() {
+        this.next();
+    };
+
+    Slider.prototype.next = function() {
+        const slidingClass = "_sliding";
+        var self = this, children = this.element.children;
+
+        requestAnimationFrame(function() {
+            var nextIndex = self.index + 1 >= children.length ? 0 : self.index + 1;
+
+            addClass(children[self.index], slidingClass);
+            addClass(children[nextIndex], slidingClass);
+        });
+
+        this.sliding = true;
+    };
+
+    Slider.prototype.childTransitionEnded = function() {
+        const slidingClass = "_sliding";
+
+        if(this.sliding) {
+            this.sliding = false;
+            var self = this, children = this.element.children,
+                nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
+                
+
+            requestAnimationFrame(function() {
+                removeClass(children[self.index], slidingClass);
+                removeClass(children[nextIndex], slidingClass);
+
+                removeClass(children[self.index], "_active");
+                addClass(children[nextIndex], "_active");
+
+                self.index = nextIndex;
+            });
+        }
+    };
+
+    function addClass(element, className) {
+        if(!hasClass(element, className)) {
+            element.className += " " + className;
+        }
+    };
+
+    function removeClass(element, className) {
+        const split = element.className.split(" ");
+        var output = "", x, curr, found = false;
+
+        for(x = 0; x < split.length; x++) {
+            curr = split[x];
+
+            if(curr !== className) {
+                output += curr + " ";
+            } else {
+                found = true;
+            }
+        }
+
+        if(found) {
+            element.className = output;
+        }
+    };
+
+    function hasClass(element, className) {
+        const split = element.className.split(" ");
+        var x, curr;
+
+        for(x = 0; x < split.length; x++) {
+            curr = split[x];
+
+            if(curr === className) {
+                return true;
+            }
+        }
+
+        return false;
     };
 
     if(!window.SimpleSlider) {

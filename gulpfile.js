@@ -12,6 +12,13 @@ gulp.task("build-js", function() {
         .pipe(gulp.dest("dist/js/"));
 });
 
+gulp.task("build-css", function() {
+    return gulp.src(["sass/*.scss", "sass/**/*.scss"])
+        .pipe(sass())
+        .pipe(gulp.dest("dist/css/"));
+});
+
 gulp.task("watch", function() {
     gulp.watch(["src/SimpleSlider.js"], ["build-js"]);
+    gulp.watch(["sass/*.scss", "sass/**/*.scss"], ["build-css"]);
 });
