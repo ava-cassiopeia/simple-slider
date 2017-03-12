@@ -31,7 +31,7 @@ or integrate `src/SimpleSlider.js` into your build process.
 
 ### CSS
 
-Either directly import the `dist/css/SimpleSlider.css" into your stylesheet or 
+Either directly import the `dist/css/SimpleSlider.css` into your stylesheet or 
 page, or you can integrate the slider into your SASS build by importing the 
 `sass/SimpleSlider.scss` into your build. 
 
