@@ -16,11 +16,19 @@
     };
 
     SimpleSlider.prototype.init = function(data) {
-        if(this.pageLoaded) {
-            this.initSlider(data);
-        } else {
-            this.initQueue.push(data);
-        }
+        var self = this;
+
+        return new Promise(function(resolve, reject) {
+            data.__readyCallback = function(slider) {
+                resolve(slider);
+            };
+
+            if(self.pageLoaded) {
+                self.initSlider(data);
+            } else {
+                self.initQueue.push(data);
+            }
+        });
     };
 
     SimpleSlider.prototype.contentReady = function() {
@@ -49,7 +57,10 @@
 
         return new Promise(function(resolve, reject) {
             requestAnimationFrame(function() {
-                self.sliders.push(new Slider(data));
+                var _slider = new Slider(data);
+                self.sliders.push(_slider);
+
+                data.__readyCallback(_slider);
             });
         });
     };
@@ -82,6 +93,10 @@
             child.addEventListener("transitionend", function(e) {
                 self.childTransitionEnded(e);
             });
+
+            child.addEventListener("touchstart", function(e) {
+                self.touchStarted(e);
+            }, false);
         }
 
         this.ready = true;
@@ -118,6 +133,10 @@
         });
 
         this.sliding = true;
+    };
+
+    Slider.prototype.touchStarted = function(e) {
+        console.log("touch started");
     };
 
     Slider.prototype.childTransitionEnded = function() {
