@@ -1,34 +1,31 @@
 (function() {
     var SimpleSlider = function () {
-        var self = this;
         this.sliders = [];
         this.initQueue = [];
         this.initQueuePointer = 0;
         this.pageLoaded = false;
 
         if(document.readyState === "complete" || document.readyState === "loaded") {
-            self.contentReady();
+            this.contentReady();
         } else {
             document.addEventListener("DOMContentLoaded", function() {
-                self.contentReady();
-            }, false);
+                this.contentReady();
+            }.bind(this), false);
         }
     };
 
     SimpleSlider.prototype.init = function(data) {
-        var self = this;
-
         return new Promise(function(resolve, reject) {
             data.__readyCallback = function(slider) {
                 resolve(slider);
             };
 
-            if(self.pageLoaded) {
-                self.initSlider(data);
+            if(this.pageLoaded) {
+                this.initSlider(data);
             } else {
-                self.initQueue.push(data);
+                this.initQueue.push(data);
             }
-        });
+        }.bind(this));
     };
 
     SimpleSlider.prototype.contentReady = function() {
@@ -40,29 +37,26 @@
             return;
         }
 
-        var self = this,
-            sliderData = this.initQueue[this.initQueuePointer];
+        var sliderData = this.initQueue[this.initQueuePointer];
 
         // Doing this instead of looking through the slider array directly
-        // allows for one frame per slider. 
+        // allows for one frame per slider.
         this.initSlider(sliderData).then(function() {
-            self.initSliderFromQueue();
-        }, function() {
+            this.initSliderFromQueue();
+        }.bind(this), function() {
             console.warn("Error initializing " + sliderData.name + " slider.");
         });
     };
 
     SimpleSlider.prototype.initSlider = function(data) {
-        var self = this;
-
         return new Promise(function(resolve, reject) {
             requestAnimationFrame(function() {
                 var _slider = new Slider(data);
-                self.sliders.push(_slider);
+                this.sliders.push(_slider);
 
                 data.__readyCallback(_slider);
-            });
-        });
+            }.bind(this));
+        }.bind(this));
     };
 
     var Slider = function(data) {
@@ -77,7 +71,7 @@
     };
 
     Slider.prototype.setup = function() {
-        var x, child, self = this, children = this.element.children;
+        var x, child, children = this.element.children;
 
         this.element.className += " _simple_slider";
 
@@ -91,12 +85,12 @@
             }
 
             child.addEventListener("transitionend", function(e) {
-                self.childTransitionEnded(e);
-            });
+                this.childTransitionEnded(e);
+            }.bind(this), false);
 
             child.addEventListener("touchstart", function(e) {
-                self.touchStarted(e);
-            }, false);
+                this.touchStarted(e);
+            }.bind(this), false);
         }
 
         this.ready = true;
@@ -108,12 +102,11 @@
             console.warn("Slider is already counting!");
             return;
         } else {
-            var self = this;
             this.counting = true;
 
             setInterval(function() {
-                self.tick();
-            }, this.delay);
+                this.tick();
+            }.bind(this), this.delay);
         }
     };
 
@@ -122,15 +115,19 @@
     };
 
     Slider.prototype.next = function() {
+        if(this.sliding) {
+            return;
+        }
+
         const slidingClass = "_sliding";
-        var self = this, children = this.element.children;
+        var children = this.element.children;
 
         requestAnimationFrame(function() {
-            var nextIndex = self.index + 1 >= children.length ? 0 : self.index + 1;
+            var nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
 
-            addClass(children[self.index], slidingClass);
+            addClass(children[this.index], slidingClass);
             addClass(children[nextIndex], slidingClass);
-        });
+        }.bind(this));
 
         this.sliding = true;
     };
@@ -144,19 +141,19 @@
 
         if(this.sliding) {
             this.sliding = false;
-            var self = this, children = this.element.children,
+            var children = this.element.children,
                 nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
-                
+
 
             requestAnimationFrame(function() {
-                removeClass(children[self.index], slidingClass);
+                removeClass(children[this.index], slidingClass);
                 removeClass(children[nextIndex], slidingClass);
 
-                removeClass(children[self.index], "_active");
+                removeClass(children[this.index], "_active");
                 addClass(children[nextIndex], "_active");
 
-                self.index = nextIndex;
-            });
+                this.index = nextIndex;
+            }.bind(this));
         }
     };
 
