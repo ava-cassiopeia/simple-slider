@@ -114,6 +114,12 @@
         this.next();
     };
 
+    Slider.prototype.previous = function() {
+        if(this.sliding) {
+            return;
+        }
+    };
+
     Slider.prototype.next = function() {
         if(this.sliding) {
             return;
@@ -125,8 +131,8 @@
         requestAnimationFrame(function() {
             var nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
 
-            addClass(children[this.index], slidingClass);
-            addClass(children[nextIndex], slidingClass);
+            children[this.index].classList.add(slidingClass);
+            children[nextIndex].classList.add(slidingClass);
         }.bind(this));
 
         this.sliding = true;
@@ -146,55 +152,15 @@
 
 
             requestAnimationFrame(function() {
-                removeClass(children[this.index], slidingClass);
-                removeClass(children[nextIndex], slidingClass);
+                children[this.index].classList.remove(slidingClass);
+                children[nextIndex].classList.remove(slidingClass);
 
-                removeClass(children[this.index], "_active");
-                addClass(children[nextIndex], "_active");
+                children[this.index].classList.remove("_active");
+                children[nextIndex].classList.add("_active");
 
                 this.index = nextIndex;
             }.bind(this));
         }
-    };
-
-    function addClass(element, className) {
-        if(!hasClass(element, className)) {
-            element.className += " " + className;
-        }
-    };
-
-    function removeClass(element, className) {
-        const split = element.className.split(" ");
-        var output = "", x, curr, found = false;
-
-        for(x = 0; x < split.length; x++) {
-            curr = split[x];
-
-            if(curr !== className) {
-                output += curr + " ";
-            } else {
-                found = true;
-            }
-        }
-
-        if(found) {
-            element.className = output;
-        }
-    };
-
-    function hasClass(element, className) {
-        const split = element.className.split(" ");
-        var x, curr;
-
-        for(x = 0; x < split.length; x++) {
-            curr = split[x];
-
-            if(curr === className) {
-                return true;
-            }
-        }
-
-        return false;
     };
 
     if(!window.SimpleSlider) {
