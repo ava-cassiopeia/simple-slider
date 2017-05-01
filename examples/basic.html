@@ -14,13 +14,28 @@
             <img src="img/slide1.jpg" />
             <img src="img/slide2.png" />
         </div>
+        <div>
+            <center>
+                <button id="prev-button">&lt; Previous</button>
+                <button id="next-button">Next &gt;</button>
+            </center>
+        </div>
 
         <script src="../dist/js/simple-slider.min.js"></script>
         <script>
             SimpleSlider.init({
                 selector: "#slider"
             }).then(function(slider) {
-                // do something with the slider instance
+                var nextButton = document.getElementById("next-button");
+                var prevButton = document.getElementById("prev-button");
+
+                nextButton.addEventListener("click", function(e) {
+                    slider.next();
+                }, false);
+
+                prevButton.addEventListener("click", function(e) {
+                    slider.previous();
+                }, false);
             });
         </script>
     </body>

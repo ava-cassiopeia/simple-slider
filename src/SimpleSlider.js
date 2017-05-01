@@ -66,6 +66,7 @@
         this.counting = false;
         this.sliding = false;
         this.index = 0;
+        this.isGoingForward = false;
 
         this.setup();
     };
@@ -118,6 +119,27 @@
         if(this.sliding) {
             return;
         }
+
+        const slidingClass = "_sliding";
+        const previousClass = "_prev";
+        var children = this.element.children;
+
+        requestAnimationFrame(function() {
+            var nextIndex = this.index - 1 < 0 ? children.length - 1 : this.index - 1;
+
+            children[this.index].classList.add(previousClass);
+            children[nextIndex].classList.add(previousClass);
+
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    children[this.index].classList.add(slidingClass);
+                    children[nextIndex].classList.add(slidingClass);
+                }.bind(this));
+            }.bind(this));
+        }.bind(this));
+
+        this.sliding = true;
+        this.isGoingForward = false;
     };
 
     Slider.prototype.next = function() {
@@ -136,6 +158,7 @@
         }.bind(this));
 
         this.sliding = true;
+        this.isGoingForward = true;
     };
 
     Slider.prototype.touchStarted = function(e) {
@@ -147,9 +170,16 @@
 
         if(this.sliding) {
             this.sliding = false;
-            var children = this.element.children,
-                nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
+            this.slidingDirection = 0;
 
+            var children = this.element.children,
+                nextIndex = 0;
+
+            if(this.isGoingForward) {
+                nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
+            } else {
+                nextIndex = this.index - 1 < 0 ? children.length - 1 : this.index - 1;
+            }
 
             requestAnimationFrame(function() {
                 children[this.index].classList.remove(slidingClass);
@@ -157,6 +187,11 @@
 
                 children[this.index].classList.remove("_active");
                 children[nextIndex].classList.add("_active");
+
+                if(!this.isGoingForward) {
+                    children[this.index].classList.remove("_prev");
+                    children[nextIndex].classList.remove("_prev");
+                }
 
                 this.index = nextIndex;
             }.bind(this));

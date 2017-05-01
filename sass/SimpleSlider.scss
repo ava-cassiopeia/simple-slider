@@ -8,7 +8,6 @@
 
     ._slide {
         will-change: transform;
-        transition: transform 1000ms ease-out;
 
         &:not(._active) {
             position: absolute;
@@ -20,11 +19,24 @@
             z-index: -1;
         }
 
+        &._prev:not(._active) {
+            transform: translateX(-100%);
+        }
+
         &._sliding {
             transform: translateX(0%);
+            transition: transform 1000ms ease-out;
 
             &._active {
                 transform: translateX(-100%);
+            }
+
+            &._prev {
+                transform: translateX(0%);
+
+                &._active {
+                    transform: translateX(100%);
+                }
             }
         }
     }
