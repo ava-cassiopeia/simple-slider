@@ -12,9 +12,10 @@ Major features:
 
 ## Browser Support
 
-Supports ~77.66% of browsers; specifically supporting modern versions of all
-browsers but Internet Explorer, which this plugin fully isn't supported in,
-primarily due to the use of the `Promise` object.
+Supports ~88.39% ([source](http://caniuse.com/#search=Promise)) of browsers;
+specifically supporting modern versions of all browsers but Internet Explorer,
+which this plugin fully isn't supported in, primarily due to the use of the
+`Promise` object.
 
 ## Integration/Installation
 
