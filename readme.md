@@ -10,6 +10,26 @@ Major features:
  - Simple API
  - Integration with your workflow/build process
 
+## Quickstart
+
+*Note: this quickstart requires [webpack](https://webpack.github.io/) and
+[NPM](https://www.npmjs.com/)*
+
+First, get Simple Slider from NPM:
+
+```
+npm i --save a-simple-slider
+```
+
+Then import `SimpleSlider` from that package in your webpack'd file:
+
+```
+import {SimpleSlider} from "a-simple-slider";
+```
+
+And you're set to start using Simple Slider. See the
+[Simple Setup](#simple-setup) instructions to setup your first slider!
+
 ## Browser Support
 
 Supports ~88.39% ([source](http://caniuse.com/#search=Promise)) of browsers;
