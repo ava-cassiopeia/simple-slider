@@ -1,4 +1,9 @@
 (function() {
+    /**
+     * Singleton class that manages sliders, and is the main API endpoint.
+     *
+     * @class
+     */
     var SimpleSlider = function () {
         this.sliders = [];
         this.initQueue = [];
@@ -14,6 +19,18 @@
         }
     };
 
+    /**
+     * Initialized a slider, or queues a slider for initialization, based on the
+     * state of the page, based on the parameters passed.
+     *
+     * @param data.selector {string} the selector for the element that wraps
+     * around the slides (representing the slider). Either use this or the
+     * data.element parameter.
+     *
+     * @param data.element {HTMLElement} the HTMLElement that represents the
+     * slider/wrapper around the slides. Either use this or the data.selector
+     * parameter.
+     */
     SimpleSlider.prototype.init = function(data) {
         return new Promise(function(resolve, reject) {
             data.__readyCallback = function(slider) {
