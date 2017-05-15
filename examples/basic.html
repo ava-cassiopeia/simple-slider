@@ -13,6 +13,7 @@
         <div id="slider">
             <img src="img/slide1.jpg" />
             <img src="img/slide2.png" />
+            <img src="img/slide3.jpg" />
         </div>
         <div>
             <center>
@@ -24,7 +25,8 @@
         <script src="../dist/js/SimpleSlider.js"></script>
         <script>
             SimpleSlider.init({
-                selector: "#slider"
+                selector: "#slider",
+                delay: 15000
             }).then(function(slider) {
                 var nextButton = document.getElementById("next-button");
                 var prevButton = document.getElementById("prev-button");
@@ -36,6 +38,8 @@
                 prevButton.addEventListener("click", function(e) {
                     slider.previous();
                 }, false);
+
+                window.__slider = slider;
             });
         </script>
     </body>
