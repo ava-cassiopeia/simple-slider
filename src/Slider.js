@@ -8,6 +8,7 @@ export default class Slider {
         this.sliding = false;
         this.index = 0;
         this.isGoingForward = false;
+        this.lastTouch = null;
         this.eventListeners = {};
 
         this.setup();
@@ -33,6 +34,14 @@ export default class Slider {
 
             child.addEventListener("touchstart", function(e) {
                 this.touchStarted(e);
+            }.bind(this), false);
+
+            child.addEventListener("touchmove", function(e) {
+                this.touchMove(e);
+            }.bind(this), false);
+
+            child.addEventListener("touchend", function(e) {
+                this.touchEnded(e);
             }.bind(this), false);
         }
 
@@ -139,8 +148,52 @@ export default class Slider {
         this.emit("action.moving.next");
     }
 
-    touchStarted() {
-        console.log("touch started");
+    touchStarted(e) {
+        if(this.sliding) {
+            return;
+        }
+
+        this.sliding = true;
+
+        this.lastTouch = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY,
+            dragPosition: {
+                x: 0,
+                y: 0
+            }
+        };
+    }
+
+    touchMove(e) {
+        var x = e.touches[0].clientX;
+        var y = e.touches[0].clientY;
+
+        var diffX = x - this.lastTouch.x;
+        var diffY = y - this.lastTouch.y;
+
+        this.lastTouch.x = x;
+        this.lastTouch.y = y;
+        this.lastTouch.dragPosition.x += diffX;
+        this.lastTouch.dragPosition.y += diffY;
+
+        this.updateDragLocation();
+    }
+
+    touchEnded(e) {
+        var activeSlide = this.element.children[this.index];
+
+        this.sliding = false;
+        activeSlide.style.transform = "";
+    }
+
+    updateDragLocation() {
+        var activeSlide = this.element.children[this.index];
+
+
+        requestAnimationFrame(function() {
+            activeSlide.style.transform = "translateX(" + this.lastTouch.dragPosition.x + "px)";
+        }.bind(this));
     }
 
     childTransitionEnded(e) {
