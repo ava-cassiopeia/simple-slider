@@ -10,6 +10,21 @@ Major features:
  - Simple API
  - Integration with your workflow/build process
 
+---
+
+ - [Quickstart](#quickstart)
+ - [Browser Support](#browser-support)
+ - [Integration/Installation](#integrationinstallation)
+   - [Javascript](#javascript)
+   - [CSS](#css)
+ - [Examples](#examples)
+   - [Simple Setup](#simple-setup)
+   - [Custom Delay Between Slides](#custom-delay-between-slides)
+ - [Events](#events)
+   - [Moving to Next Slide Event](#moving-to-next-slide-event)
+   - [Moving to Previous Slide Event](#moving-to-previous-slide-event)
+   - [Index Changed Event](#index-changed-event)
+
 ## Quickstart
 
 *Note: this quickstart requires [webpack](https://webpack.github.io/) and
@@ -83,3 +98,47 @@ SimpleSlider.init({
     delay: 10000 // in milliseconds
 });
 ```
+
+## Events
+
+The slider can emit events that will allow you to tie into what the slider is
+doing. Those are listed below.
+
+To listen to a specific event, you can specify the event like so:
+
+```
+slider.addEventListener("eventName", function(eventName, data, slider) {
+    // do something when the event is fired here
+});
+```
+
+To listen to any event emitted by the slider, just set the `eventName` parameter
+to `null` or equivalent:
+
+```
+slider.addEventListener(null, function(eventName, data, slider) {
+    // do something when any event is fired.
+    // You can use the eventName parameter to figure out what event happened
+});
+```
+
+### Moving to Next Slide Event
+
+Name: `action.moving.next`
+
+Fired when the slider starts to move to the next slide in sequence.
+
+### Moving to the Previous Slide Event
+
+Name: `action.moving.previous`
+
+Fired when the slider starts to move to the previous slide in sequence.
+
+### Index Changed Event
+
+Name: `index.changed`
+
+Fired when the index of the active slide changes. Includes the index that the
+slider changed to.
+
+*Note:* this is fired at the *end* of the sliding animation.
