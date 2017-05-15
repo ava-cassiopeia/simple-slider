@@ -36,6 +36,11 @@
                 prevButton.addEventListener("click", function(e) {
                     slider.previous();
                 }, false);
+
+                slider.addEventListener(null, function(eventName, data) {
+                    console.log(eventName + " event emitted.");
+                    console.log(data);
+                });
             });
         </script>
     </body>

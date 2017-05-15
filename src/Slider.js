@@ -8,6 +8,7 @@ export default class Slider {
         this.sliding = false;
         this.index = 0;
         this.isGoingForward = false;
+        this.eventListeners = {};
 
         this.setup();
     }
@@ -37,6 +38,38 @@ export default class Slider {
 
         this.ready = true;
         this.startCounting();
+    }
+
+    addEventListener(eventName, callback) {
+        eventName = eventName || "__";
+
+        if(!this.eventListeners[eventName]) {
+            this.eventListeners[eventName] = [];
+        }
+
+        this.eventListeners[eventName].push(callback);
+    }
+
+    emit(eventName, data) {
+        if(eventName) {
+            this.notifyEventListeners(eventName, data);
+        }
+
+        this.notifyEventListeners("__", data, eventName);
+    }
+
+    notifyEventListeners(eventName, data, eventNameOverride) {
+        if(!this.eventListeners[eventName]) {
+            return;
+        }
+
+        var x, listener, listeners = this.eventListeners[eventName];
+
+        for(x = 0; x < listeners.length; x++) {
+            listener = listeners[x];
+
+            listener(eventNameOverride || eventName, data, this);
+        }
     }
 
     startCounting() {
@@ -81,6 +114,8 @@ export default class Slider {
 
         this.sliding = true;
         this.isGoingForward = false;
+
+        this.emit("action.moving.previous");
     }
 
     next() {
@@ -100,6 +135,8 @@ export default class Slider {
 
         this.sliding = true;
         this.isGoingForward = true;
+
+        this.emit("action.moving.next");
     }
 
     touchStarted() {
@@ -135,6 +172,8 @@ export default class Slider {
                 }
 
                 this.index = nextIndex;
+
+                this.emit("index.changed", this.index);
             }.bind(this));
         }
     }
