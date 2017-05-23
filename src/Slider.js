@@ -156,7 +156,7 @@ export default class Slider {
 
         this.emit("action.moving.next");
     }
-    
+
     touchStarted(e) {
         if(this.sliding) {
             return;
@@ -192,8 +192,25 @@ export default class Slider {
     touchEnded(e) {
         var activeSlide = this.element.children[this.index];
 
+        const dragDistance = Math.abs(this.lastTouch.dragPosition.x);
+        const wasDraggedRight = this.lastTouch.dragPosition.x > 0;
+        const sliderWidth = this.element.clientWidth;
+        const dragPercentage = Math.floor((dragDistance / sliderWidth) * 100);
+
+        console.log("Drag percentage: " + dragPercentage + "%");
+        console.log("Was dragged right:" + wasDraggedRight);
+
         this.sliding = false;
-        activeSlide.style.transform = "";
+
+        if(dragPercentage > 50) {
+            if(wasDraggedRight) {
+                this.previous();
+            } else {
+                this.next();
+            }
+        }
+
+        //activeSlide.style.transform = "";
     }
 
     updateDragLocation() {
