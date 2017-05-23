@@ -1,6 +1,6 @@
 {
   "name": "a-simple-slider",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Yet another slider Javascript module. Built because I don't like how other sliders work.",
   "main": "dist/js/SimpleSlider.js",
   "module": "src/index.js",

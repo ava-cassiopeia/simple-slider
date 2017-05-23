@@ -5,6 +5,7 @@ sliders work.
 
 Major features:
 
+ - Performant
  - No dependencies, just native Javascript
  - No inline styles
  - Simple API
@@ -43,6 +44,9 @@ Then import `SimpleSlider` from that package in your webpack'd file:
 ```
 import {SimpleSlider} from "a-simple-slider";
 ```
+
+Finally, make sure to somehow include the CSS/SASS file associated with this
+project.
 
 And you're set to start using Simple Slider. See the
 [Simple Setup](#simple-setup) instructions to setup your first slider!
