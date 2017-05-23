@@ -176,7 +176,7 @@ export default class Slider {
             var children = this.element.children,
                 nextIndex = 0;
 
-            if(this.nextIndex) {
+            if(this.nextIndex != null) {
                 nextIndex = this.nextIndex;
             } else {
                 if(this.isGoingForward) {
