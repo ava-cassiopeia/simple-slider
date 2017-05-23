@@ -149,6 +149,8 @@ export default class Slider {
     }
 
     jumpTo(index) {
+        // if the specified index is the index we're currently on OR the index
+        // is out of bounds, do nothing
         if(index == this.index || index < 0 || index >= this.element.children.length) {
             return;
         }

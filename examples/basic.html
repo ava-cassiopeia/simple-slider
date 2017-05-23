@@ -21,6 +21,13 @@
                 <button id="next-button">Next &gt;</button>
             </center>
         </div>
+        <div>
+            <center>
+                <button class="_index-button" data-index="0">1</button>
+                <button class="_index-button" data-index="1">2</button>
+                <button class="_index-button" data-index="2">3</button>
+            </center>
+        </div>
 
         <script src="../dist/js/SimpleSlider.js"></script>
         <script>
@@ -39,8 +46,28 @@
                     slider.previous();
                 }, false);
 
+                setupIndexButtons(slider);
+
                 window.__slider = slider;
             });
+
+            function setupIndexButtons(slider) {
+                var x, button, buttons = document.querySelectorAll("._index-button");
+
+                for(x = 0; x < buttons.length; x++) {
+                    button = buttons[x];
+
+                    setupIndexButton(slider, button);
+                }
+            }
+
+            function setupIndexButton(slider, button) {
+                var index = parseInt(button.getAttribute("data-index"));
+
+                button.addEventListener("click", function(e) {
+                    slider.jumpTo(index);
+                }, false);
+            }
         </script>
     </body>
 </html>
