@@ -10,6 +10,7 @@ export default class Slider {
         this.isGoingForward = false;
         this.lastTouch = null;
         this.eventListeners = {};
+        this.nextIndex = null;
 
         this.setup();
     }
@@ -98,7 +99,7 @@ export default class Slider {
         this.next();
     }
 
-    previous() {
+    previous(index) {
         if(this.sliding) {
             return;
         }
@@ -106,10 +107,14 @@ export default class Slider {
         const slidingClass = "_sliding";
         const previousClass = "_prev";
         var children = this.element.children;
+        var nextIndex = this.index - 1 < 0 ? children.length - 1 : this.index - 1;
+
+        if(typeof index !== 'undefined') {
+            nextIndex = index;
+            this.nextIndex = index;
+        }
 
         requestAnimationFrame(function() {
-            var nextIndex = this.index - 1 < 0 ? children.length - 1 : this.index - 1;
-
             children[this.index].classList.add(previousClass);
             children[nextIndex].classList.add(previousClass);
 
@@ -127,17 +132,21 @@ export default class Slider {
         this.emit("action.moving.previous");
     }
 
-    next() {
+    next(index) {
         if(this.sliding) {
             return;
         }
 
         const slidingClass = "_sliding";
         var children = this.element.children;
+        var nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
+
+        if(typeof index !== 'undefined') {
+            nextIndex = index;
+            this.nextIndex = index;
+        }
 
         requestAnimationFrame(function() {
-            var nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
-
             children[this.index].classList.add(slidingClass);
             children[nextIndex].classList.add(slidingClass);
         }.bind(this));
@@ -147,7 +156,7 @@ export default class Slider {
 
         this.emit("action.moving.next");
     }
-
+    
     touchStarted(e) {
         if(this.sliding) {
             return;
@@ -196,6 +205,20 @@ export default class Slider {
         }.bind(this));
     }
 
+    jumpTo(index) {
+        // if the specified index is the index we're currently on OR the index
+        // is out of bounds, do nothing
+        if(index == this.index || index < 0 || index >= this.element.children.length) {
+            return;
+        }
+
+        if(index > this.index) {
+            this.next(index);
+        } else {
+            this.previous(index);
+        }
+    }
+
     childTransitionEnded(e) {
         const slidingClass = "_sliding";
 
@@ -206,11 +229,18 @@ export default class Slider {
             var children = this.element.children,
                 nextIndex = 0;
 
-            if(this.isGoingForward) {
-                nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
+            if(this.nextIndex != null) {
+                nextIndex = this.nextIndex;
             } else {
-                nextIndex = this.index - 1 < 0 ? children.length - 1 : this.index - 1;
+                if(this.isGoingForward) {
+                    nextIndex = this.index + 1 >= children.length ? 0 : this.index + 1;
+                } else {
+                    nextIndex = this.index - 1 < 0 ? children.length - 1 : this.index - 1;
+                }
             }
+
+            // reset the nextIndex keeper
+            this.nextIndex = null;
 
             requestAnimationFrame(function() {
                 children[this.index].classList.remove(slidingClass);
