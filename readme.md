@@ -20,6 +20,8 @@ Major features:
  - [Examples](#examples)
    - [Simple Setup](#simple-setup)
    - [Custom Delay Between Slides](#custom-delay-between-slides)
+ - [SASS](#sass)
+   - [Move Speed](#move-speed)
  - [Events](#events)
    - [Moving to Next Slide Event](#moving-to-next-slide-event)
    - [Moving to Previous Slide Event](#moving-to-previous-slide-event)
@@ -98,6 +100,19 @@ SimpleSlider.init({
     delay: 10000 // in milliseconds
 });
 ```
+
+## SASS
+
+You can, if you would like, include the SASS file located in `sass/` into your
+project build. If so, the below default variables are available to override.
+
+### Move Speed
+
+Variable Name: `$simple-slider_move-speed`<br />
+Default: `1000ms`
+
+This controls how fast the slider changes between slides. Can be any normal
+unit of time.
 
 ## Events
 

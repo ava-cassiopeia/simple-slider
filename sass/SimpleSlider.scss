@@ -1,3 +1,5 @@
+$simple-slider_move-speed: 1000ms !default;
+
 ._simple_slider {
     position: relative;
     overflow: hidden;
@@ -25,7 +27,7 @@
 
         &._sliding {
             transform: translateX(0%);
-            transition: transform 1000ms ease-out;
+            transition: transform $simple-slider_move-speed ease-out;
 
             &._active {
                 transform: translateX(-100%);
