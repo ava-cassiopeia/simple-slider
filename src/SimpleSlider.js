@@ -32,9 +32,7 @@ export class SimpleSlider {
     }
 
     contentReady() {
-        while(this.hasSliderInQueue()) {
-            this.initSliderFromQueue();
-        }
+        this.initSliderFromQueue();
     }
 
     initSliderFromQueue() {
@@ -51,10 +49,6 @@ export class SimpleSlider {
         }.bind(this), function() {
             console.warn("Error initializing " + sliderData.name + " slider.");
         });
-    }
-
-    hasSliderInQueue() {
-        return !(this.initQueuePointer > this.initQueue.length - 1);
     }
 
     initSlider(data) {
