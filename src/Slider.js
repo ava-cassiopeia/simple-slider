@@ -3,6 +3,7 @@ export default class Slider {
     constructor(data) {
         this.element = data.element || document.querySelector(data.selector);
         this.delay = data.delay || 5000;
+        this.paused = typeof data.paused !== 'undefined' ? data.paused : false;
         this.ready = false;
         this.counting = false;
         this.sliding = false;
@@ -38,7 +39,10 @@ export default class Slider {
         }
 
         this.ready = true;
-        this.startCounting();
+
+        if(!this.paused) {
+            this.startCounting();
+        }
     }
 
     addEventListener(eventName, callback) {

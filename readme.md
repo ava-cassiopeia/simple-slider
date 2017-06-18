@@ -21,6 +21,7 @@ Major features:
  - [Examples](#examples)
    - [Simple Setup](#simple-setup)
    - [Custom Delay Between Slides](#custom-delay-between-slides)
+ - [Config Options](#config-options)
  - [SASS](#sass)
    - [Move Speed](#move-speed)
  - [Events](#events)
@@ -104,6 +105,18 @@ SimpleSlider.init({
     delay: 10000 // in milliseconds
 });
 ```
+
+## Config Options
+
+The setup configuration object for a Simple Slider takes a number of options,
+which are documented below.
+
+| Name | Key | Type | Default | Required? | Description |
+| ---- | --- | ---- | ------- | --------- | ----------- |
+| Element | `element` | HTMLElement | null | Yes* | The HTMLElement object representing the slider itself. Required if the `selector` option isn't set |
+| Selector | `selector` | String | null | Yes* | The CSS selector that selects the HTMLElement representing the slider itself. Required if the `element` option isn't set |
+| Delay | `delay` | Integer | 5000 | No | The delay that the slider waits (in milliseconds) before switching to the next slide |
+| Paused | `paused` | Boolean | False | No | Sets the paused state of the Slider. If true, the slider will not automatically switch between slides after a delay |
 
 ## SASS
 
