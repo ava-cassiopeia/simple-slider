@@ -49,6 +49,8 @@ export class SimpleSlider {
         }.bind(this), function() {
             console.warn("Error initializing " + sliderData.name + " slider.");
         });
+
+        this.initQueuePointer += 1;
     }
 
     initSlider(data) {
@@ -58,6 +60,8 @@ export class SimpleSlider {
                 this.sliders.push(_slider);
 
                 data.__readyCallback(_slider);
+
+                resolve(_slider);
             }.bind(this));
         }.bind(this));
     }

@@ -28,12 +28,17 @@
                 <button class="_index-button" data-index="2">3</button>
             </center>
         </div>
+        <div id="slider-2">
+            <img src="img/slide1.jpg" />
+            <img src="img/slide2.png" />
+            <img src="img/slide3.jpg" />
+        </div>
 
         <script src="../dist/js/SimpleSlider.js"></script>
         <script>
             SimpleSlider.init({
                 selector: "#slider",
-                delay: 5000
+                paused: true
             }).then(function(slider) {
                 var nextButton = document.getElementById("next-button");
                 var prevButton = document.getElementById("prev-button");
@@ -49,6 +54,11 @@
                 setupIndexButtons(slider);
 
                 window.__slider = slider;
+            });
+
+            SimpleSlider.init({
+                selector: "#slider-2",
+                delay: 7000
             });
 
             function setupIndexButtons(slider) {
