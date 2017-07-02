@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Test HTML</title>
+
+        <!-- Mocha resources -->
+        <script type="text/javascript" src="/node_modules/mocha/mocha.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/node_modules/mocha/mocha.css" />
+
+        <!-- Medusa helper script -->
+        <script type="text/javascript" src="/node_modules/medusa-cli/src/SimpleHelper/SimpleHelper.js"></script>
+
+        <!-- Simple Slider -->
+        <link rel="stylesheet" type="text/css"
+            href="/dist/css/SimpleSlider.css" />
+    </head>
+    <body>
+        <!-- This is where you'll put your own HTML for testing -->
+
+        <!-- Medusa Setup + Mocha Start -->
+        <script type="text/javascript">
+            var simpleHelper = new SimpleHelper();
+
+            mocha.setup({
+                ui: "bdd",
+                reporter: simpleHelper.reporter()
+            });
+        </script>
+        <script type="text/javascript" src="/node_modules/browser-assert/lib/assert.js"></script>
+        <!-- SimpleSlider code + tests -->
+        <script src="../dist/js/SimpleSlider.js"></script>
+        <script type="text/javascript" src="/tests/test.js"></script>
+        <script type="text/javascript">
+            mocha.checkLeaks();
+            mocha.run();
+        </script>
+    </body>
+</html>

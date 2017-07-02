@@ -18,6 +18,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.4.1",
     "gulp-uglify": "^2.1.0",
+    "medusa-cli": "^0.5.4",
     "webpack": "^2.5.1"
   }
 }
