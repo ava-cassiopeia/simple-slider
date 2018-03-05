@@ -8,7 +8,9 @@ export class SimpleSlider {
         this.initQueuePointer = 0;
         this.pageLoaded = false;
 
-        if(document.readyState === "complete" || document.readyState === "loaded") {
+        if(document.readyState === "complete"
+            || document.readyState === "loaded"
+            || document.readyState === "interactive") {
             this.contentReady();
         } else {
             document.addEventListener("DOMContentLoaded", function() {
@@ -33,6 +35,7 @@ export class SimpleSlider {
 
     contentReady() {
         this.initSliderFromQueue();
+        this.pageLoaded = true;
     }
 
     initSliderFromQueue() {
